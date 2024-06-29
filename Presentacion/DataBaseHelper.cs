@@ -23,7 +23,7 @@ namespace Presentacion
             using (SqlConnection conexion = new SqlConnection(connectionString))
             {
                 // Comando SQL
-                string query = "SELECT Codigo, Nombre, Descripcion FROM ARTICULOS";
+                string query = "SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio, ImagenUrl FROM ARTICULOS";
                 using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
                     try
@@ -37,9 +37,14 @@ namespace Presentacion
                             while (lector.Read())
                             {
                                 Articulo articulo = new Articulo();
+                                articulo.Id = lector.GetInt32(0); //obtener id
                                 articulo.Codigo = lector["Codigo"].ToString();
                                 articulo.Nombre = lector["Nombre"].ToString();
                                 articulo.Descripcion = lector["Descripcion"].ToString();
+                                articulo.IdMarca = lector.GetInt32(4);//Obtener IdMarca
+                                articulo.IdCategoria = lector.GetInt32(5);
+                                articulo.Precio = lector.GetDecimal(6);
+                                articulo.ImagenUrl = lector["ImagenUrl"].ToString();
                                 articulos.Add(articulo);
                             }
                         }
@@ -53,13 +58,7 @@ namespace Presentacion
             }
 
             return articulos;
-            //Cambios Realizados:
-            //Clase DataBaseHelper: Renombré la clase a DataBaseHelper.
-            //Clase Articulo: Asumí que tienes una clase Articulo con propiedades Codigo, Nombre y Descripcion.
-            //Cadena de Conexión: La cadena de conexión está configurada para CATALOGO_DB.
-            //Comando SQL: El comando SQL selecciona Codigo, Nombre y Descripcion de la tabla ARTICULOS.
-            //Asegúrate de que Articulo esté definido adecuadamente en tu proyecto(puedes utilizar la definición que vimos anteriormente). Este código debería funcionar correctamente para obtener la lista de artículos de tu base de datos CATALOGO_DB.
-
+           
 
 
         }
