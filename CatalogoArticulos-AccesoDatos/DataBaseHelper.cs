@@ -15,52 +15,47 @@ namespace CatalogoArticulos.AccesoDatos
         public List<Articulo> ObtenerArticulos() 
         {
             List<Articulo> articulos = new List<Articulo>();
+            SqlConnection conexion = new SqlConnection();
+            SqlCommand comando = new SqlCommand();
+            SqlDataReader lector;
 
-            // Cadena de conexión
-            string connectionString = "server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true;";
-
-            // Uso de using para asegurar la liberación de recursos
-            using (SqlConnection conexion = new SqlConnection(connectionString))
+            try
             {
-                // Comando SQL
-                string query = "SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio, ImagenUrl FROM ARTICULOS";
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                // Cadena de conexión
+                conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true";
+                comando.CommandType = System.Data.CommandType.Text;
+                comando.CommandText = "SELECT Id, Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio, ImagenUrl FROM ARTICULOS";
+                comando.Connection = conexion;
+
+                // Abrir conexión
+                conexion.Open();
+                lector = comando.ExecuteReader();
+
+                // Iterar sobre los resultados
+                while (lector.Read())
                 {
-                    try
-                    {
-                        conexion.Open(); // Abrir conexión
-
-                        // Ejecutar comando y obtener el lector de datos
-                        using (SqlDataReader lector = comando.ExecuteReader())
-                        {
-                            // Iterar sobre los resultados
-                            while (lector.Read())
-                            {
-                                Articulo articulo = new Articulo();
-                                articulo.Id = lector.GetInt32(0); //obtener id
-                                articulo.Codigo = lector["Codigo"].ToString();
-                                articulo.Nombre = lector["Nombre"].ToString();
-                                articulo.Descripcion = lector["Descripcion"].ToString();
-                                articulo.IdMarca = lector.GetInt32(4);//Obtener IdMarca
-                                articulo.IdCategoria = lector.GetInt32(5);
-                                articulo.Precio = lector.GetDecimal(6);
-                                articulo.ImagenUrl = lector["ImagenUrl"].ToString();
-                                articulos.Add(articulo);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Manejo de excepciones: puedes registrar el error, mostrar un mensaje al usuario, etc.
-                        throw new Exception("Error al obtener los artículos de la base de datos.", ex);
-                    }
+                    Articulo articulo = new Articulo();
+                    articulo.Id = lector.GetInt32(0); // Obtener Id
+                    articulo.Codigo = lector["Codigo"].ToString();
+                    articulo.Nombre = lector["Nombre"].ToString();
+                    articulo.Descripcion = lector["Descripcion"].ToString();
+                    articulo.IdMarca = lector.GetInt32(4); // Obtener IdMarca
+                    articulo.IdCategoria = lector.GetInt32(5); // Obtener IdCategoria
+                    articulo.Precio = lector.GetDecimal(6); // Obtener Precio
+                    articulo.ImagenUrl = lector["ImagenUrl"].ToString();
+                    articulos.Add(articulo);
                 }
+
+                // Cerrar conexión
+                conexion.Close();
+                return articulos;
             }
-
-            return articulos;
-           
-
-
+            catch (Exception ex)
+            {
+                // Manejo de excepciones: puedes registrar el error, mostrar un mensaje al usuario, etc.
+                throw new Exception("Error al obtener los artículos de la base de datos.", ex);
+            }
         }
     }
 }
+
