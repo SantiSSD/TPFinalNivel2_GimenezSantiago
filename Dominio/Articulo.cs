@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentacion
+namespace Dominio
 {
-    internal class Articulo
+    public class Articulo
     {
         //Propiedades para almacenar datos del articulo
         public int Id { get; set; }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Collections;
 using System.Drawing;
+using Dominio;
 
-namespace Presentacion
+namespace CatalogoArticulos.AccesoDatos
 {
-    internal class DataBaseHelper
+    public class DataBaseHelper
     {
         public List<Articulo> ObtenerArticulos() 
         {
