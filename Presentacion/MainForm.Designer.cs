@@ -30,6 +30,7 @@
         {
             this.dataGridViewArticulos = new System.Windows.Forms.DataGridView();
             this.pictureBoxTienda = new System.Windows.Forms.PictureBox();
+            this.btnAgregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTienda)).BeginInit();
             this.SuspendLayout();
@@ -37,7 +38,7 @@
             // dataGridViewArticulos
             // 
             this.dataGridViewArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewArticulos.Location = new System.Drawing.Point(12, 37);
+            this.dataGridViewArticulos.Location = new System.Drawing.Point(242, 86);
             this.dataGridViewArticulos.Name = "dataGridViewArticulos";
             this.dataGridViewArticulos.Size = new System.Drawing.Size(439, 279);
             this.dataGridViewArticulos.TabIndex = 0;
@@ -45,18 +46,29 @@
             // 
             // pictureBoxTienda
             // 
-            this.pictureBoxTienda.Location = new System.Drawing.Point(477, 52);
+            this.pictureBoxTienda.Location = new System.Drawing.Point(727, 97);
             this.pictureBoxTienda.Name = "pictureBoxTienda";
-            this.pictureBoxTienda.Size = new System.Drawing.Size(280, 264);
+            this.pictureBoxTienda.Size = new System.Drawing.Size(237, 259);
             this.pictureBoxTienda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxTienda.TabIndex = 1;
             this.pictureBoxTienda.TabStop = false;
+            // 
+            // btnAgregar
+            // 
+            this.btnAgregar.Location = new System.Drawing.Point(242, 371);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(75, 23);
+            this.btnAgregar.TabIndex = 2;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1113, 665);
+            this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.pictureBoxTienda);
             this.Controls.Add(this.dataGridViewArticulos);
             this.Name = "MainForm";
@@ -72,6 +84,7 @@
 
         private System.Windows.Forms.DataGridView dataGridViewArticulos;
         private System.Windows.Forms.PictureBox pictureBoxTienda;
+        private System.Windows.Forms.Button btnAgregar;
     }
 }
 

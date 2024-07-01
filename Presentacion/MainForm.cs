@@ -81,6 +81,12 @@ namespace Presentacion
             }
         }
 
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            FrmAgregarArticulo frmAgregar = new FrmAgregarArticulo();
+            frmAgregar.ShowDialog();
+            // Aquí puedes realizar acciones después de cerrar el formulario de agregar, como actualizar una lista de artículos mostrados.
+        }
     }
 }
 

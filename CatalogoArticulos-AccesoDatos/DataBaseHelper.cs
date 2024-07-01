@@ -56,6 +56,25 @@ namespace CatalogoArticulos.AccesoDatos
                 throw new Exception("Error al obtener los artículos de la base de datos.", ex);
             }
         }
+        public void InsertarArticulo(Articulo nuevo) 
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("INSERT INTO Articulos (Codigo, Nombre, Descripcion, Precio) VALUES ('" + nuevo.Codigo + "', '" + nuevo.Nombre + "', '" + nuevo.Descripcion + "', " + nuevo.Precio + ")");
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        
+        }
     }
 }
 
