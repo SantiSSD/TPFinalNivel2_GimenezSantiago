@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CatalogoArticulos.AccesoDatos;
+using CatalogoArticulos_AccesoDatos;
 
 namespace Presentacion
 {
@@ -39,6 +40,21 @@ namespace Presentacion
                 dataBaseHelper.InsertarArticulo(nuevoArticulo);
                 MessageBox.Show("Agregado exitosamente!");
                 Close();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void FrmAgregarArticulo_Load(object sender, EventArgs e)
+        {
+            NegocioArticulo negocioArticulo = new NegocioArticulo();
+            try
+            {
+                cboCategoria.DataSource = negocioArticulo.Listar();
+                cboMarca.DataSource = negocioArticulo.Listar();
             }
             catch (Exception ex)
             {
