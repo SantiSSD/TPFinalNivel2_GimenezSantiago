@@ -53,8 +53,15 @@ namespace Presentacion
             NegocioArticulo negocioArticulo = new NegocioArticulo();
             try
             {
-                cboCategoria.DataSource = negocioArticulo.Listar();
-                cboMarca.DataSource = negocioArticulo.Listar();
+                // Asignar al ComboBox de Categorías
+                cboCategoria.DataSource = negocioArticulo.ObtenerCategorias();
+                cboCategoria.DisplayMember = "Descripcion";
+                cboCategoria.ValueMember = "Id";
+
+                // Asignar al ComboBox de Marcas
+                cboMarca.DataSource = negocioArticulo.ObtenerMarcas();
+                cboMarca.DisplayMember = "Descripcion";
+                cboMarca.ValueMember = "Id";
             }
             catch (Exception ex)
             {
