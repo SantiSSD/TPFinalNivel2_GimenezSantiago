@@ -10,7 +10,7 @@ namespace CatalogoArticulos_AccesoDatos
 {
     public class NegocioArticulo //maneja la lógica de negocio para Categorias y Marcas
     {
-        public List<Categoria> ObtenerCategorias()
+        public List<Categoria> Listar()
         {
             List<Categoria> lista = new List<Categoria>();
             AccesoDatos datos = new AccesoDatos();
