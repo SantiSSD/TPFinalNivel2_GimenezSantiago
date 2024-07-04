@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace CatalogoArticulos_AccesoDatos
 {
     public class NegocioArticulo //maneja la lógica de negocio para Categorias y Marcas
     {
-        public List<Categoria> Listar()
+        public List<Categoria> ObtenerCategorias()
         {
             List<Categoria> lista = new List<Categoria>();
             AccesoDatos datos = new AccesoDatos();
@@ -74,5 +75,4 @@ namespace CatalogoArticulos_AccesoDatos
         }
     }
 }
-    
 

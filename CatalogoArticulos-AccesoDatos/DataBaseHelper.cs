@@ -12,7 +12,7 @@ namespace CatalogoArticulos.AccesoDatos
 {
     public class DataBaseHelper
     {
-        public List<Articulo> ObtenerArticulos() 
+        public List<Articulo> ObtenerArticulos()
         {
             List<Articulo> articulos = new List<Articulo>();
             SqlConnection conexion = new SqlConnection();
@@ -56,12 +56,18 @@ namespace CatalogoArticulos.AccesoDatos
                 throw new Exception("Error al obtener los artículos de la base de datos.", ex);
             }
         }
-        public void InsertarArticulo(Articulo nuevo) 
+        public void InsertarArticulo(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO Articulos (Codigo, Nombre, Descripcion, Precio) VALUES ('" + nuevo.Codigo + "', '" + nuevo.Nombre + "', '" + nuevo.Descripcion + "', " + nuevo.Precio + ")");
+                datos.setearConsulta("INSERT INTO Articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) VALUES (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @precio)");
+                datos.setearParametro("@codigo", nuevo.Codigo);
+                datos.setearParametro("@nombre", nuevo.Nombre);
+                datos.setearParametro("@descripcion", nuevo.Descripcion);
+                datos.setearParametro("@idMarca", nuevo.Marca.Id);
+                datos.setearParametro("@idCategoria", nuevo.Categoria.Id);
+                datos.setearParametro("@precio", nuevo.Precio);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -73,8 +79,7 @@ namespace CatalogoArticulos.AccesoDatos
             {
                 datos.CerrarConexion();
             }
-        
+
         }
     }
 }
-

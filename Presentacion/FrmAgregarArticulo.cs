@@ -53,8 +53,8 @@ namespace Presentacion
             NegocioArticulo negocioArticulo = new NegocioArticulo();
             try
             {
-                cboCategoria.DataSource = negocioArticulo.Listar();
-                cboMarca.DataSource = negocioArticulo.Listar();
+                cboCategoria.DataSource = negocioArticulo.ObtenerCategorias();
+                cboMarca.DataSource = negocioArticulo.ObtenerMarcas();
             }
             catch (Exception ex)
             {

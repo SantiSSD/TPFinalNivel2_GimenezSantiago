@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace CatalogoArticulos.AccesoDatos
 {
-    internal class AccesoDatos
+    public class AccesoDatos
     {
         private SqlConnection conexion;
         private SqlCommand comando;
@@ -43,10 +43,10 @@ namespace CatalogoArticulos.AccesoDatos
                 throw ex;
             }
 
-            
+
         }
 
-        public void ejecutarAccion() 
+        public void ejecutarAccion()
         {
             comando.Connection = conexion;
             try
@@ -59,20 +59,24 @@ namespace CatalogoArticulos.AccesoDatos
 
                 throw;
             }
+
+        }
+        public void setearParametro(string nombre, object valor) 
+        {
+            comando.Parameters.AddWithValue(nombre, valor);
         
         }
 
-
-        public void CerrarConexion() 
+        public void CerrarConexion()
         {
 
             if (lector != null)
             {
                 lector.Close();
             }
-          conexion.Close();
-        
+            conexion.Close();
+
         }
-       
+
     }
 }
