@@ -37,6 +37,13 @@ namespace Presentacion
                 nuevoArticulo.Nombre = (txtNombre.Text);
                 nuevoArticulo.Descripcion = txtDescripcion.Text;
                 nuevoArticulo.Precio = int.Parse(txtPrecio.Text);
+                nuevoArticulo.Marca = new Marca();
+                nuevoArticulo.Categoria = new Categoria();
+                nuevoArticulo.Marca.Id = (int)cboMarca.SelectedValue;
+                nuevoArticulo.Categoria.Id = (int)cboCategoria.SelectedValue;
+
+
+
 
                 dataBaseHelper.InsertarArticulo(nuevoArticulo);
                 MessageBox.Show("Agregado exitosamente!");
