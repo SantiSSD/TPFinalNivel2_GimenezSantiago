@@ -82,7 +82,7 @@ namespace CatalogoArticulos.AccesoDatos
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT INTO Articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) VALUES (@codigo, @nombre, @descripcion, @idMarca, @idCategoria, @precio)");
+                datos.setearConsulta("INSERT INTO Articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria,ImagenUrl, Precio) VALUES (@codigo, @nombre, @descripcion, @idMarca, @idCategoria,@Imagenurl, @precio)");
 
 
                 datos.setearParametro("@codigo", nuevo.Codigo);
@@ -90,6 +90,7 @@ namespace CatalogoArticulos.AccesoDatos
                 datos.setearParametro("@descripcion", nuevo.Descripcion);
                 datos.setearParametro("@idMarca", nuevo.Marca.Id);
                 datos.setearParametro("@idCategoria", nuevo.Categoria.Id);
+                datos.setearParametro("@Imagenurl", nuevo.ImagenUrl);
                 datos.setearParametro("@precio", nuevo.Precio);
 
                 datos.ejecutarAccion();

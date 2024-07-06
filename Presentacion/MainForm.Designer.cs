@@ -55,6 +55,7 @@
             this.pictureBoxTienda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxTienda.TabIndex = 1;
             this.pictureBoxTienda.TabStop = false;
+            
             // 
             // btnAgregar
             // 

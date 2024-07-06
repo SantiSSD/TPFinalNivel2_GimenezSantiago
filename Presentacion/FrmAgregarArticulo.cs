@@ -40,6 +40,7 @@ namespace Presentacion
                 nuevoArticulo.Marca = new Marca();
                 nuevoArticulo.Categoria = new Categoria();
                 nuevoArticulo.Marca.Id = (int)cboMarca.SelectedValue;
+                nuevoArticulo.ImagenUrl = txtUrlImagen.Text;
                 nuevoArticulo.Categoria.Id = (int)cboCategoria.SelectedValue;
 
 
@@ -75,6 +76,23 @@ namespace Presentacion
             {
 
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtUrlImagen_Leave(object sender, EventArgs e)
+        {
+            cargarImagen(txtUrlImagen.Text);
+        }
+        private void cargarImagen(string imagen)
+        {
+            try
+            {
+                pictureBoxTienda.Load(imagen);
+            }
+            catch (Exception ex)
+            {
+
+                pictureBoxTienda.Load("https://t4.ftcdn.net/jpg/05/17/53/57/360_F_517535712_q7f9QC9X6TQxWi6xYZZbMmw5cnLMr279.jpg");
             }
         }
     }

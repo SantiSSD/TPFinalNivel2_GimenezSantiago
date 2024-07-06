@@ -93,6 +93,8 @@ namespace Presentacion
             Cargar();
             // Aquí puedes realizar acciones después de cerrar el formulario de agregar, como actualizar una lista de artículos mostrados.
         }
+
+        
     }
 }
 
