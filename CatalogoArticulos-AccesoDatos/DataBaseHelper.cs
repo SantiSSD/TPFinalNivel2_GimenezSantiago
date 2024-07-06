@@ -42,7 +42,12 @@ namespace CatalogoArticulos.AccesoDatos
                     articulo.IdMarca = lector.GetInt32(4); // Obtener IdMarca
                     articulo.IdCategoria = lector.GetInt32(5); // Obtener IdCategoria
                     articulo.Precio = lector.GetDecimal(6); // Obtener Precio
-                    articulo.ImagenUrl = lector["ImagenUrl"].ToString();
+
+                    //Primera manera para validar DBnull
+                    //if (!lector.IsDBNull(lector.GetOrdinal("ImagenUrl")))                  
+                    //articulo.ImagenUrl = lector["ImagenUrl"].ToString();
+                     if(!(lector["ImagenUrl"] is DBNull))
+                        articulo.ImagenUrl = lector["ImagenUrl"].ToString();
                     articulos.Add(articulo);
                 }
 
