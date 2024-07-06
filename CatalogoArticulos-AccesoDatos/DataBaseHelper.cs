@@ -41,18 +41,22 @@ namespace CatalogoArticulos.AccesoDatos
                     articulo.Nombre = lector["Nombre"].ToString();
                     articulo.Descripcion = lector["Descripcion"].ToString();
 
-                    //crear Objeto Marca
-                    Marca marca = new Marca();
-                    marca.Id = lector.GetInt32(4);// Obtener IdMarca
-                    marca.Descripcion = lector["Marca"].ToString(); // Obtener Descripcion de Marca
-                    articulo.Marca = marca;
-                    //crear Objeto Categoria
+                    // Asignar IdMarca y IdCategoria directamente si están como enteros en la base de datos
+                    articulo.IdMarca = lector.GetInt32(4); // Obtener IdMarca
+                    articulo.IdCategoria = lector.GetInt32(6); // Obtener IdCategoria
 
+                    articulo.Marca = new Marca
+                    {
+                        Id = articulo.IdMarca,
+                        Descripcion = lector["Marca"].ToString() // Obtener Marca
+                    };
 
-                    Categoria categoria = new Categoria();
-                    categoria.Id = lector.GetInt32(6); // Obtener IdCategoria
-                    categoria.Descripcion = lector["Categoria"].ToString(); // Obtener Descripcion de Categoria
-                    articulo.Categoria = categoria;
+                    articulo.Categoria = new Categoria
+                    {
+                        Id = articulo.IdCategoria,
+                        Descripcion = lector["Categoria"].ToString() // Obtener Categoria
+                    };
+
                     articulo.Precio = lector.GetDecimal(8); // Obtener Precio
 
                     //Primera manera para validar DBnull
