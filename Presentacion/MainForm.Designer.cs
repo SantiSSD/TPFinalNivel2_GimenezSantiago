@@ -38,9 +38,12 @@
             // dataGridViewArticulos
             // 
             this.dataGridViewArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewArticulos.Location = new System.Drawing.Point(242, 86);
+            this.dataGridViewArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewArticulos.Location = new System.Drawing.Point(35, 86);
+            this.dataGridViewArticulos.MultiSelect = false;
             this.dataGridViewArticulos.Name = "dataGridViewArticulos";
-            this.dataGridViewArticulos.Size = new System.Drawing.Size(439, 279);
+            this.dataGridViewArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewArticulos.Size = new System.Drawing.Size(629, 279);
             this.dataGridViewArticulos.TabIndex = 0;
             this.dataGridViewArticulos.SelectionChanged += new System.EventHandler(this.dataGridViewArticulos_SelectionChanged);
             // 
@@ -55,7 +58,7 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(242, 371);
+            this.btnAgregar.Location = new System.Drawing.Point(35, 371);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 2;

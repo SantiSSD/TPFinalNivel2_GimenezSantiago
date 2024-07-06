@@ -22,6 +22,18 @@ namespace Presentacion
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Cargar();
+        }
+
+        private void dataGridViewArticulos_SelectionChanged(object sender, EventArgs e)
+        {
+            Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+            cargarImagen(seleccionado.ImagenUrl);
+
+        }
+
+        private void Cargar()
+        {
             try
             {
                 // Invocar la lectura de base de datos
@@ -61,13 +73,6 @@ namespace Presentacion
             }
         }
 
-        private void dataGridViewArticulos_SelectionChanged(object sender, EventArgs e)
-        {
-            Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
-            cargarImagen(seleccionado.ImagenUrl);
-
-        }
-
         private void cargarImagen(string imagen)
         {
             try
@@ -85,6 +90,7 @@ namespace Presentacion
         {
             FrmAgregarArticulo frmAgregar = new FrmAgregarArticulo();
             frmAgregar.ShowDialog();
+            Cargar();
             // Aquí puedes realizar acciones después de cerrar el formulario de agregar, como actualizar una lista de artículos mostrados.
         }
     }
