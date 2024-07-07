@@ -106,5 +106,32 @@ namespace CatalogoArticulos.AccesoDatos
             }
 
         }
+        public void ModificarArticulo(Articulo articulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Articulos SET Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, IdMarca = @idMarca, IdCategoria = @idCategoria, ImagenUrl = @imagenUrl, Precio = @precio WHERE Id = @id");
+
+                datos.setearParametro("@codigo", articulo.Codigo);
+                datos.setearParametro("@nombre", articulo.Nombre);
+                datos.setearParametro("@descripcion", articulo.Descripcion);
+                datos.setearParametro("@idMarca", articulo.Marca.Id);
+                datos.setearParametro("@idCategoria", articulo.Categoria.Id);
+                datos.setearParametro("@imagenUrl", articulo.ImagenUrl);
+                datos.setearParametro("@precio", articulo.Precio);
+                datos.setearParametro("@id", articulo.Id); // Agregar el parámetro Id para identificar el artículo a modificar
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el artículo en la base de datos.", ex);
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
     }
 }

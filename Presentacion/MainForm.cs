@@ -94,7 +94,16 @@ namespace Presentacion
             // Aquí puedes realizar acciones después de cerrar el formulario de agregar, como actualizar una lista de artículos mostrados.
         }
 
-        
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado;
+            seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+
+            FrmAgregarArticulo frmModificar = new FrmAgregarArticulo(seleccionado);
+            frmModificar.ShowDialog();
+            Cargar();
+
+        }
     }
 }
 

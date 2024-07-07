@@ -16,9 +16,19 @@ namespace Presentacion
 {
     public partial class FrmAgregarArticulo : Form
     {
+
+        private Articulo articulo = null;   
+
         public FrmAgregarArticulo()
         {
             InitializeComponent();
+        }
+
+        public FrmAgregarArticulo(Articulo articulo)
+        {
+            InitializeComponent();
+            this.articulo = articulo;
+            Text = "Modificar Articulo";
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -29,30 +39,49 @@ namespace Presentacion
         private void btnAceptar_Click(object sender, EventArgs e)
         {
 
-            Articulo nuevoArticulo = new Articulo();
+            
             DataBaseHelper dataBaseHelper = new DataBaseHelper();
             try
             {
-                nuevoArticulo.Codigo = txtCodigo.Text;
-                nuevoArticulo.Nombre = (txtNombre.Text);
-                nuevoArticulo.Descripcion = txtDescripcion.Text;
-                nuevoArticulo.Precio = int.Parse(txtPrecio.Text);
-                nuevoArticulo.Marca = new Marca();
-                nuevoArticulo.Categoria = new Categoria();
-                nuevoArticulo.Marca.Id = (int)cboMarca.SelectedValue;
-                nuevoArticulo.ImagenUrl = txtUrlImagen.Text;
-                nuevoArticulo.Categoria.Id = (int)cboCategoria.SelectedValue;
+                if (articulo == null)
+                    articulo = new Articulo();
 
+                articulo.Codigo = txtCodigo.Text;
+                articulo.Nombre = txtNombre.Text;
+                articulo.Descripcion = txtDescripcion.Text;
 
+                // Validar que el precio sea un valor decimal válido
+                if (decimal.TryParse(txtPrecio.Text, out decimal precio))
+                {
+                    articulo.Precio = precio;
+                }
+                else
+                {
+                    MessageBox.Show("El precio ingresado no tiene un formato válido.");
+                    return;
+                }
 
+                articulo.Marca = new Marca();
+                articulo.Categoria = new Categoria();
+                articulo.Marca.Id = (int)cboMarca.SelectedValue;
+                articulo.ImagenUrl = txtUrlImagen.Text;
+                articulo.Categoria.Id = (int)cboCategoria.SelectedValue;
 
-                dataBaseHelper.InsertarArticulo(nuevoArticulo);
-                MessageBox.Show("Agregado exitosamente!");
+                if (articulo.Id != 0)
+                {
+                    dataBaseHelper.ModificarArticulo(articulo);
+                    MessageBox.Show("Modificado exitosamente!");
+                }
+                else
+                {
+                    dataBaseHelper.InsertarArticulo(articulo);
+                    MessageBox.Show("Agregado exitosamente!");
+                }
+
                 Close();
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -71,6 +100,18 @@ namespace Presentacion
                 cboMarca.DataSource = negocioArticulo.ObtenerMarcas();
                 cboMarca.DisplayMember = "Descripcion";
                 cboMarca.ValueMember = "Id";
+
+                if (articulo != null)
+                {
+                    txtCodigo.Text = articulo.Codigo;
+                    txtNombre.Text = articulo.Nombre;
+                    txtDescripcion.Text = articulo.Descripcion;
+                    txtUrlImagen.Text = articulo.ImagenUrl;
+                    cargarImagen(articulo.ImagenUrl);
+                    txtPrecio.Text = articulo.Precio.ToString();
+                    cboCategoria.SelectedValue = articulo.Categoria.Id;
+                    cboMarca.SelectedValue = articulo.Marca.Id;
+                }
             }
             catch (Exception ex)
             {
