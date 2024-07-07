@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using CatalogoArticulos.AccesoDatos;
+using CatalogoArticulos_AccesoDatos;
 
 namespace Presentacion
 {
@@ -103,6 +104,30 @@ namespace Presentacion
             frmModificar.ShowDialog();
             Cargar();
 
+        }
+
+        private void btnEliminarFisico_Click(object sender, EventArgs e)
+        {
+            // Instanciar la clase de negocio
+            DataBaseHelper dataBaseHelper = new DataBaseHelper();
+            Articulo seleccionado;
+            try
+            {
+                DialogResult respuesta = MessageBox.Show("¿De verdad queres eliminar este articulo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (respuesta == DialogResult.Yes)
+                {
+                    seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+                    dataBaseHelper.eliminar(seleccionado.Id);
+                    Cargar();
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
