@@ -28,8 +28,12 @@ namespace Presentacion
 
         private void dataGridViewArticulos_SelectionChanged(object sender, EventArgs e)
         {
-            Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
-            cargarImagen(seleccionado.ImagenUrl);
+            if (dataGridViewArticulos.CurrentRow != null)
+            {
+             Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+             cargarImagen(seleccionado.ImagenUrl);
+
+            }
 
         }
 
@@ -50,6 +54,9 @@ namespace Presentacion
 
                 // Asignar los datos al DataGridView
                 dataGridViewArticulos.DataSource = ListaArticulos;
+
+                // Ocultar columnas específicas
+                OcultarColumnas();
 
                 // Verificar que la lista no esté vacía antes de cargar la imagen
                 if (ListaArticulos.Count > 0)
@@ -74,6 +81,14 @@ namespace Presentacion
             }
         }
 
+        private void OcultarColumnas()
+        {
+            dataGridViewArticulos.Columns["idMarca"].Visible = false;
+            dataGridViewArticulos.Columns["idCategoria"].Visible = false;
+            dataGridViewArticulos.Columns["ImagenUrl"].Visible = false;
+            dataGridViewArticulos.Columns["Id"].Visible = false;
+
+        }
         private void cargarImagen(string imagen)
         {
             try
@@ -121,13 +136,34 @@ namespace Presentacion
                     Cargar();
                 }
 
-                
+
             }
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            List<Articulo> Listafiltrada;
+            string filtro = txtFiltro.Text;
+
+            if (filtro != "")
+            {
+                Listafiltrada = ListaArticulos.FindAll(SANTI => SANTI.Nombre.ToUpper().Contains(filtro.ToUpper()) || (SANTI.Marca != null && SANTI.Marca.Descripcion != null && SANTI.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper())) || (SANTI.Descripcion != null && SANTI.Descripcion.ToUpper().Contains(filtro.ToUpper())));
+
+
+            }
+            else
+            {
+                Listafiltrada = ListaArticulos;
+            }
+
+            dataGridViewArticulos.DataSource = null;
+            dataGridViewArticulos.DataSource = Listafiltrada;
+            OcultarColumnas();
         }
     }
 }
