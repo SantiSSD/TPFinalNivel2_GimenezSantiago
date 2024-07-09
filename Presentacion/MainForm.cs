@@ -24,6 +24,9 @@ namespace Presentacion
         private void MainForm_Load(object sender, EventArgs e)
         {
             Cargar();
+            cboCampo.Items.Add("Id");
+            cboCampo.Items.Add("Nombre");
+            cboCampo.Items.Add("Descripción");
         }
 
         private void dataGridViewArticulos_SelectionChanged(object sender, EventArgs e)
@@ -86,7 +89,7 @@ namespace Presentacion
             dataGridViewArticulos.Columns["idMarca"].Visible = false;
             dataGridViewArticulos.Columns["idCategoria"].Visible = false;
             dataGridViewArticulos.Columns["ImagenUrl"].Visible = false;
-            dataGridViewArticulos.Columns["Id"].Visible = false;
+            dataGridViewArticulos.Columns["Id"].Visible = true;
 
         }
         private void cargarImagen(string imagen)
@@ -147,6 +150,23 @@ namespace Presentacion
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            DataBaseHelper dataBaseHelper = new DataBaseHelper();
+            try
+            {
+              string campo = cboCampo.SelectedItem.ToString();
+              string criterio = cboCriterio.SelectedItem.ToString();
+              string filtro = txtFiltroAvanzado.Text;
+                dataGridViewArticulos.DataSource = dataBaseHelper.filtrar(campo, criterio, filtro);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void txtFiltro_TextChanged(object sender, EventArgs e)
+        {
             List<Articulo> Listafiltrada;
             string filtro = txtFiltro.Text;
 
@@ -164,6 +184,25 @@ namespace Presentacion
             dataGridViewArticulos.DataSource = null;
             dataGridViewArticulos.DataSource = Listafiltrada;
             OcultarColumnas();
+        }
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string opcion = cboCampo.SelectedItem.ToString();
+            if (opcion == "Id")
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Mayor a");
+                cboCriterio.Items.Add("Menor a");
+                cboCriterio.Items.Add("Igual a");
+            }
+            else
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
+            }
         }
     }
 }
