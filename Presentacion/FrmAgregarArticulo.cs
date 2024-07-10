@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CatalogoArticulos.AccesoDatos;
 using CatalogoArticulos_AccesoDatos;
+using System.IO;
+using System.Configuration;
 
 namespace Presentacion
 {
@@ -18,7 +20,8 @@ namespace Presentacion
     {
 
         private Articulo articulo = null;   
-
+        private OpenFileDialog archivo = null;
+        
         public FrmAgregarArticulo()
         {
             InitializeComponent();
@@ -78,6 +81,15 @@ namespace Presentacion
                     MessageBox.Show("Agregado exitosamente!");
                 }
 
+                //Guardo la imagen si la levanto localmente:
+                if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))
+                {
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+
+
+                }
+
+
                 Close();
             }
             catch (Exception ex)
@@ -134,6 +146,23 @@ namespace Presentacion
             {
 
                 pictureBoxTienda.Load("https://t4.ftcdn.net/jpg/05/17/53/57/360_F_517535712_q7f9QC9X6TQxWi6xYZZbMmw5cnLMr279.jpg");
+            }
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg;|png|*.png";
+            if (archivo.ShowDialog() == DialogResult.OK)
+            {
+                txtUrlImagen.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+
+                //guardo la imagen
+                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+
+
+
             }
         }
     }

@@ -55,7 +55,7 @@
             this.dataGridViewArticulos.MultiSelect = false;
             this.dataGridViewArticulos.Name = "dataGridViewArticulos";
             this.dataGridViewArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewArticulos.Size = new System.Drawing.Size(629, 348);
+            this.dataGridViewArticulos.Size = new System.Drawing.Size(642, 348);
             this.dataGridViewArticulos.TabIndex = 0;
             this.dataGridViewArticulos.SelectionChanged += new System.EventHandler(this.dataGridViewArticulos_SelectionChanged);
             // 

@@ -45,6 +45,7 @@
             this.lblUrlImagen = new System.Windows.Forms.Label();
             this.txtUrlImagen = new System.Windows.Forms.TextBox();
             this.pictureBoxTienda = new System.Windows.Forms.PictureBox();
+            this.btnAgregarImagen = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTienda)).BeginInit();
             this.SuspendLayout();
             // 
@@ -187,18 +188,30 @@
             // 
             // pictureBoxTienda
             // 
-            this.pictureBoxTienda.Location = new System.Drawing.Point(297, 36);
+            this.pictureBoxTienda.Location = new System.Drawing.Point(321, 36);
             this.pictureBoxTienda.Name = "pictureBoxTienda";
             this.pictureBoxTienda.Size = new System.Drawing.Size(217, 198);
             this.pictureBoxTienda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxTienda.TabIndex = 5;
             this.pictureBoxTienda.TabStop = false;
             // 
+            // btnAgregarImagen
+            // 
+            this.btnAgregarImagen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarImagen.Location = new System.Drawing.Point(260, 171);
+            this.btnAgregarImagen.Name = "btnAgregarImagen";
+            this.btnAgregarImagen.Size = new System.Drawing.Size(46, 21);
+            this.btnAgregarImagen.TabIndex = 9;
+            this.btnAgregarImagen.Text = "+";
+            this.btnAgregarImagen.UseVisualStyleBackColor = true;
+            this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
+            // 
             // FrmAgregarArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(560, 307);
+            this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.pictureBoxTienda);
             this.Controls.Add(this.cboMarca);
             this.Controls.Add(this.cboCategoria);
@@ -244,5 +257,6 @@
         private System.Windows.Forms.Label lblUrlImagen;
         private System.Windows.Forms.TextBox txtUrlImagen;
         private System.Windows.Forms.PictureBox pictureBoxTienda;
+        private System.Windows.Forms.Button btnAgregarImagen;
     }
 }
