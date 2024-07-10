@@ -21,10 +21,12 @@ namespace Presentacion
 
         private Articulo articulo = null;   
         private OpenFileDialog archivo = null;
-        
+        private bool txtPrecioEventSubscribed = false; // Variable para controlar la suscripción
+
         public FrmAgregarArticulo()
         {
             InitializeComponent();
+          
         }
 
         public FrmAgregarArticulo(Articulo articulo)
@@ -41,8 +43,13 @@ namespace Presentacion
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            if (!txtPrecioEventSubscribed)
+            {
+                txtPrecio.KeyPress += new KeyPressEventHandler(txtPrecio_KeyPress);
+                txtPrecioEventSubscribed = true; // Marcar que el evento está suscrito
+            }
 
-            
+
             DataBaseHelper dataBaseHelper = new DataBaseHelper();
             try
             {
@@ -52,18 +59,7 @@ namespace Presentacion
                 articulo.Codigo = txtCodigo.Text;
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
-
-                // Validar que el precio sea un valor decimal válido
-                if (decimal.TryParse(txtPrecio.Text, out decimal precio))
-                {
-                    articulo.Precio = precio;
-                }
-                else
-                {
-                    MessageBox.Show("El precio ingresado no tiene un formato válido.");
-                    return;
-                }
-
+                articulo.Precio = decimal.Parse(txtPrecio.Text);
                 articulo.Marca = new Marca();
                 articulo.Categoria = new Categoria();
                 articulo.Marca.Id = (int)cboMarca.SelectedValue;
@@ -165,5 +161,52 @@ namespace Presentacion
 
             }
         }
+
+        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permitir solo números, backspace y punto decimal
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permiten números y un punto decimal.", "Entrada inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            // Solo permitir un punto decimal
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permite un punto decimal.", "Entrada inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        private bool ValidarCampos()
+        {
+            if (string.IsNullOrEmpty(txtNombre.Text))
+            {
+                MessageBox.Show("El nombre no puede estar vacío.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtDescripcion.Text))
+            {
+                MessageBox.Show("La descripción no puede estar vacía.");
+                return false;
+            }
+
+            if (!ValidarPrecio(txtPrecio.Text))
+            {
+                MessageBox.Show("El precio ingresado no es válido. Debe ser un número.");
+                txtPrecio.Focus();
+                return false;
+            }
+
+            // Otras validaciones que necesites
+            return true;
+        }
+        private bool ValidarPrecio(string precio)
+        {
+            decimal resultado;
+            return decimal.TryParse(precio, out resultado);
+        }
+
     }
 }

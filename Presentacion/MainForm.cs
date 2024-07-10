@@ -33,8 +33,8 @@ namespace Presentacion
         {
             if (dataGridViewArticulos.CurrentRow != null)
             {
-             Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
-             cargarImagen(seleccionado.ImagenUrl);
+                Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+                cargarImagen(seleccionado.ImagenUrl);
 
             }
 
@@ -115,8 +115,13 @@ namespace Presentacion
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo seleccionado;
-            seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+            if (dataGridViewArticulos.CurrentRow == null)
+            {
+                MessageBox.Show("No hay ningún artículo seleccionado para modificar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
 
             FrmAgregarArticulo frmModificar = new FrmAgregarArticulo(seleccionado);
             frmModificar.ShowDialog();
@@ -148,14 +153,70 @@ namespace Presentacion
             }
         }
 
+
+        private bool ValidaFiltro()
+        {
+            if (cboCampo.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, seleccione el campo para filtrar.");
+                return true;
+            }
+            if (cboCriterio.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor, seleccione el criterio para filtrar.");
+                return true;
+            }
+            if (cboCampo.SelectedItem.ToString() == "Id")
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
+                {
+                    MessageBox.Show("Debes Cargar el filtro para Númericos...");
+                    return true;
+                }
+                if (!(SoloNumeros(txtFiltroAvanzado.Text)))
+                {
+                    MessageBox.Show("Solo Números para filtrar por un campo Numérico...");
+                    return true;
+
+                }
+            }
+            else if (cboCampo.SelectedItem.ToString() == "Descripción")
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
+                {
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción'.");
+                    return true;
+                }
+
+            }
+            return false;
+
+
+        }
+        private bool SoloNumeros(string cadena)
+        {
+            foreach (var caracter in cadena)
+            {
+                if (!(char.IsNumber(caracter)))
+                {
+                    return false;
+
+                }
+            }
+            return true;
+        }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             DataBaseHelper dataBaseHelper = new DataBaseHelper();
             try
             {
-              string campo = cboCampo.SelectedItem.ToString();
-              string criterio = cboCriterio.SelectedItem.ToString();
-              string filtro = txtFiltroAvanzado.Text;
+                if (ValidaFiltro())
+                    return;
+
+                string campo = cboCampo.SelectedItem.ToString();
+                string criterio = cboCriterio.SelectedItem.ToString();
+                string filtro = txtFiltroAvanzado.Text;
                 dataGridViewArticulos.DataSource = dataBaseHelper.filtrar(campo, criterio, filtro);
             }
             catch (Exception ex)
