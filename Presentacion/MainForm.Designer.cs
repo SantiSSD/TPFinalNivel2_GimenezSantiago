@@ -44,6 +44,7 @@
             this.cboCriterio = new System.Windows.Forms.ComboBox();
             this.txtFiltroAvanzado = new System.Windows.Forms.TextBox();
             this.btnDescripcionarticulo = new System.Windows.Forms.Button();
+            this.btnRecargar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTienda)).BeginInit();
             this.SuspendLayout();
@@ -139,7 +140,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(714, 441);
+            this.btnBuscar.Location = new System.Drawing.Point(704, 441);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(96, 20);
             this.btnBuscar.TabIndex = 7;
@@ -213,12 +214,25 @@
             this.btnDescripcionarticulo.UseVisualStyleBackColor = false;
             this.btnDescripcionarticulo.Click += new System.EventHandler(this.btnDescripcionarticulo_Click);
             // 
+            // btnRecargar
+            // 
+            this.btnRecargar.BackColor = System.Drawing.Color.White;
+            this.btnRecargar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRecargar.Location = new System.Drawing.Point(704, 467);
+            this.btnRecargar.Name = "btnRecargar";
+            this.btnRecargar.Size = new System.Drawing.Size(96, 23);
+            this.btnRecargar.TabIndex = 15;
+            this.btnRecargar.Text = "Recargar";
+            this.btnRecargar.UseVisualStyleBackColor = false;
+            this.btnRecargar.Click += new System.EventHandler(this.btnRecargar_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(1117, 565);
+            this.Controls.Add(this.btnRecargar);
             this.Controls.Add(this.btnDescripcionarticulo);
             this.Controls.Add(this.txtFiltroAvanzado);
             this.Controls.Add(this.cboCriterio);
@@ -262,6 +276,7 @@
         private System.Windows.Forms.ComboBox cboCriterio;
         private System.Windows.Forms.TextBox txtFiltroAvanzado;
         private System.Windows.Forms.Button btnDescripcionarticulo;
+        private System.Windows.Forms.Button btnRecargar;
     }
 }
 

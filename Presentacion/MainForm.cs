@@ -161,14 +161,14 @@ namespace Presentacion
                 MessageBox.Show("Por favor, seleccione el campo para filtrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
-            if (cboCriterio.SelectedIndex < 0)
+            if (cboCriterio.SelectedIndex < 0 && !string.IsNullOrWhiteSpace(txtFiltroAvanzado.Text.Trim()))
             {
                 MessageBox.Show("Por favor, seleccione el criterio para filtrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             if (cboCampo.SelectedItem.ToString() == "Codigo")
             {
-                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text.Trim()))
                 {
                     MessageBox.Show("El filtro no puede estar vacío para el campo 'Codigo'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
@@ -176,18 +176,19 @@ namespace Presentacion
             }
             else if (cboCampo.SelectedItem.ToString() == "Descripción")
             {
-                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text.Trim()))
                 {
                     MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
                 }
             }
             return false;
-        
 
 
-    }
-       
+
+
+        }
+
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -199,15 +200,15 @@ namespace Presentacion
 
                 string campo = cboCampo.SelectedItem.ToString();
                 string criterio = cboCriterio.SelectedItem.ToString();
-                string filtro = txtFiltroAvanzado.Text;
+                string filtro = txtFiltroAvanzado.Text.Trim();
+
                 dataGridViewArticulos.DataSource = dataBaseHelper.filtrar(campo, criterio, filtro);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al filtrar los artículos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
-    }
+        }
 
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
@@ -216,8 +217,12 @@ namespace Presentacion
 
             if (filtro != "")
             {
-                Listafiltrada = ListaArticulos.FindAll(SANTI => SANTI.Nombre.ToUpper().Contains(filtro.ToUpper()) || (SANTI.Marca != null && SANTI.Marca.Descripcion != null && SANTI.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper())) || (SANTI.Descripcion != null && SANTI.Descripcion.ToUpper().Contains(filtro.ToUpper())));
-
+                Listafiltrada = ListaArticulos.FindAll(articulo =>
+                articulo.Codigo.ToUpper().Contains(filtro.ToUpper()) ||
+                articulo.Nombre.ToUpper().Contains(filtro.ToUpper()) ||
+               (articulo.Marca != null && articulo.Marca.Descripcion != null && articulo.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper())) ||
+               (articulo.Categoria != null && articulo.Categoria.Descripcion != null && articulo.Categoria.Descripcion.ToUpper().Contains(filtro.ToUpper())) ||
+               (articulo.Descripcion != null && articulo.Descripcion.ToUpper().Contains(filtro.ToUpper())) || articulo.Precio.ToString().ToUpper().Contains(filtro.ToUpper()));
 
             }
             else
@@ -254,6 +259,11 @@ namespace Presentacion
             Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
             FrmDetalleArticulo frmDetalle = new FrmDetalleArticulo(seleccionado);
             frmDetalle.ShowDialog();
+        }
+
+        private void btnRecargar_Click(object sender, EventArgs e)
+        {
+            Cargar();
         }
     }
 }

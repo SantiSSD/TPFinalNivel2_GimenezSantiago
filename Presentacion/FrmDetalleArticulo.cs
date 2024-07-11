@@ -51,9 +51,11 @@ namespace Presentacion
                     txtUrlImagenDetalle.Text = "No hay imagen disponible";
                 }
 
-                
                 CargarComboBoxCategorias();
                 CargarComboBoxMarcas();
+                
+                cboCategoriaDetalle.SelectedValue = articuloDetalle.Categoria.Id;
+                cboMarcaDetalle.SelectedValue = articuloDetalle.Marca.Id;
 
                 txtNombreDetalle.Enabled = false;
                 txtDescripcionDetalle.Enabled = false;
