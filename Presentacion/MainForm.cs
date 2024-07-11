@@ -44,24 +44,24 @@ namespace Presentacion
         {
             try
             {
-                // Invocar la lectura de base de datos
+               
                 DataBaseHelper DbHelper = new DataBaseHelper();
                 ListaArticulos = DbHelper.ObtenerArticulos();
 
-                // Verificar si ListaArticulos es null
+                
                 if (ListaArticulos == null)
                 {
                     MessageBox.Show("La lista de artículos es nula. Revisa la conexión a la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Asignar los datos al DataGridView
+               
                 dataGridViewArticulos.DataSource = ListaArticulos;
 
-                // Ocultar columnas específicas
+                
                 OcultarColumnas();
 
-                // Verificar que la lista no esté vacía antes de cargar la imagen
+                
                 if (ListaArticulos.Count > 0)
                 {
                     try
@@ -110,7 +110,7 @@ namespace Presentacion
             FrmAgregarArticulo frmAgregar = new FrmAgregarArticulo();
             frmAgregar.ShowDialog();
             Cargar();
-            // Aquí puedes realizar acciones después de cerrar el formulario de agregar, como actualizar una lista de artículos mostrados.
+           
         }
 
         private void btnModificar_Click(object sender, EventArgs e)

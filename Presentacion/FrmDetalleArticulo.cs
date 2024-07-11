@@ -15,13 +15,13 @@ namespace Presentacion
     public partial class FrmDetalleArticulo : Form
     {
         private Articulo articuloDetalle;
-        private NegocioArticulo negocioArticulo; // Instancia de NegocioArticulo
+        private NegocioArticulo negocioArticulo; 
 
         public FrmDetalleArticulo(Articulo articulo)
         {
             InitializeComponent();
             articuloDetalle = articulo;
-            negocioArticulo = new NegocioArticulo(); // Instanciar NegocioArticulo
+            negocioArticulo = new NegocioArticulo(); 
         }
 
         private void FrmDetalleArticulo_Load(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace Presentacion
                 txtPrecioDetalle.Text = articuloDetalle.Precio.ToString();
                 txtCodigoDetalle.Text = articuloDetalle.Codigo;
 
-                // Verificar la URL de la imagen
+                
                 if (!string.IsNullOrEmpty(articuloDetalle.ImagenUrl))
                 {
                     pictureBoxTiendaDetalle.ImageLocation = articuloDetalle.ImagenUrl;
@@ -46,16 +46,15 @@ namespace Presentacion
                 }
                 else
                 {
-                    // Mostrar imagen predeterminada o mensaje de que no hay imagen disponible
-                    pictureBoxTiendaDetalle.ImageLocation = "ruta/a/imagen_predeterminada.png"; // Cambiar por la ruta de tu imagen predeterminada
+                   
+                    pictureBoxTiendaDetalle.ImageLocation = "ruta/a/imagen_predeterminada.png"; 
                     txtUrlImagenDetalle.Text = "No hay imagen disponible";
                 }
 
-                // Cargar categoría y marca utilizando NegocioArticulo
+                
                 CargarComboBoxCategorias();
                 CargarComboBoxMarcas();
 
-                // Deshabilita la edición de los campos
                 txtNombreDetalle.Enabled = false;
                 txtDescripcionDetalle.Enabled = false;
                 txtPrecioDetalle.Enabled = false;

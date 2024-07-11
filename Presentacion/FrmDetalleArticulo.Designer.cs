@@ -207,6 +207,7 @@
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.lblDescripcion);
             this.Controls.Add(this.lblNombre);
+            this.MaximizeBox = false;
             this.Name = "FrmDetalleArticulo";
             this.Text = "FrmDetalleArticulo";
             this.Load += new System.EventHandler(this.FrmDetalleArticulo_Load);

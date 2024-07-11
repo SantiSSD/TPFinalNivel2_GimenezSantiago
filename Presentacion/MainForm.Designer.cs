@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewArticulos = new System.Windows.Forms.DataGridView();
             this.pictureBoxTienda = new System.Windows.Forms.PictureBox();
             this.btnAgregar = new System.Windows.Forms.Button();
@@ -57,12 +57,12 @@
             this.dataGridViewArticulos.Location = new System.Drawing.Point(181, 86);
             this.dataGridViewArticulos.MultiSelect = false;
             this.dataGridViewArticulos.Name = "dataGridViewArticulos";
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewArticulos.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dataGridViewArticulos.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewArticulos.Size = new System.Drawing.Size(642, 348);
             this.dataGridViewArticulos.TabIndex = 0;
@@ -234,6 +234,7 @@
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.pictureBoxTienda);
             this.Controls.Add(this.dataGridViewArticulos);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);

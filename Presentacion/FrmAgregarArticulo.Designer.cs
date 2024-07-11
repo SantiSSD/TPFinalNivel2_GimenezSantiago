@@ -46,6 +46,9 @@
             this.txtUrlImagen = new System.Windows.Forms.TextBox();
             this.pictureBoxTienda = new System.Windows.Forms.PictureBox();
             this.btnAgregarImagen = new System.Windows.Forms.Button();
+            this.lblErrorCodigo = new System.Windows.Forms.Label();
+            this.lblErrorNombre = new System.Windows.Forms.Label();
+            this.lblErrorPrecio = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTienda)).BeginInit();
             this.SuspendLayout();
             // 
@@ -194,9 +197,9 @@
             // 
             // pictureBoxTienda
             // 
-            this.pictureBoxTienda.Location = new System.Drawing.Point(349, 33);
+            this.pictureBoxTienda.Location = new System.Drawing.Point(363, 33);
             this.pictureBoxTienda.Name = "pictureBoxTienda";
-            this.pictureBoxTienda.Size = new System.Drawing.Size(217, 445);
+            this.pictureBoxTienda.Size = new System.Drawing.Size(251, 445);
             this.pictureBoxTienda.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxTienda.TabIndex = 5;
             this.pictureBoxTienda.TabStop = false;
@@ -212,12 +215,46 @@
             this.btnAgregarImagen.UseVisualStyleBackColor = true;
             this.btnAgregarImagen.Click += new System.EventHandler(this.btnAgregarImagen_Click);
             // 
+            // lblErrorCodigo
+            // 
+            this.lblErrorCodigo.AutoSize = true;
+            this.lblErrorCodigo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorCodigo.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorCodigo.Location = new System.Drawing.Point(68, 59);
+            this.lblErrorCodigo.Name = "lblErrorCodigo";
+            this.lblErrorCodigo.Size = new System.Drawing.Size(0, 13);
+            this.lblErrorCodigo.TabIndex = 10;
+            // 
+            // lblErrorNombre
+            // 
+            this.lblErrorNombre.AutoSize = true;
+            this.lblErrorNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorNombre.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorNombre.Location = new System.Drawing.Point(68, 108);
+            this.lblErrorNombre.Name = "lblErrorNombre";
+            this.lblErrorNombre.Size = new System.Drawing.Size(0, 13);
+            this.lblErrorNombre.TabIndex = 11;
+            // 
+            // lblErrorPrecio
+            // 
+            this.lblErrorPrecio.AutoSize = true;
+            this.lblErrorPrecio.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.lblErrorPrecio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblErrorPrecio.ForeColor = System.Drawing.Color.Red;
+            this.lblErrorPrecio.Location = new System.Drawing.Point(68, 393);
+            this.lblErrorPrecio.Name = "lblErrorPrecio";
+            this.lblErrorPrecio.Size = new System.Drawing.Size(0, 13);
+            this.lblErrorPrecio.TabIndex = 12;
+            // 
             // FrmAgregarArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(614, 617);
+            this.Controls.Add(this.lblErrorPrecio);
+            this.Controls.Add(this.lblErrorNombre);
+            this.Controls.Add(this.lblErrorCodigo);
             this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.pictureBoxTienda);
             this.Controls.Add(this.cboMarca);
@@ -236,6 +273,7 @@
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.lblDescripcion);
             this.Controls.Add(this.lblNombre);
+            this.MaximizeBox = false;
             this.Name = "FrmAgregarArticulo";
             this.Text = "FrmAgregarArticulo";
             this.Load += new System.EventHandler(this.FrmAgregarArticulo_Load);
@@ -265,5 +303,8 @@
         private System.Windows.Forms.TextBox txtUrlImagen;
         private System.Windows.Forms.PictureBox pictureBoxTienda;
         private System.Windows.Forms.Button btnAgregarImagen;
+        private System.Windows.Forms.Label lblErrorCodigo;
+        private System.Windows.Forms.Label lblErrorNombre;
+        private System.Windows.Forms.Label lblErrorPrecio;
     }
 }

@@ -42,50 +42,47 @@ namespace Presentacion
             DataBaseHelper dataBaseHelper = new DataBaseHelper();
             try
             {
-                if (!ValidarCampos())
-                    return;
-
-                if (articulo == null)
-                    articulo = new Articulo();
-
-                articulo.Codigo = txtCodigo.Text;
-                articulo.Nombre = txtNombre.Text;
-                articulo.Descripcion = txtDescripcion.Text;
-
-                // Validación para el campo Precio
-                decimal precio;
-                if (!decimal.TryParse(txtPrecio.Text, out precio))
+                if (ValidarCampos())
                 {
-                    MessageBox.Show("El campo Precio debe contener un valor numérico válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtPrecio.Focus();
-                    return;
-                }
-                articulo.Precio = precio;
+                    if (articulo == null)
+                        articulo = new Articulo();
 
-                articulo.Marca = new Marca();
-                articulo.Categoria = new Categoria();
-                articulo.Marca.Id = (int)cboMarca.SelectedValue;
-                articulo.ImagenUrl = txtUrlImagen.Text;
-                articulo.Categoria.Id = (int)cboCategoria.SelectedValue;
+                    articulo.Codigo = txtCodigo.Text;
+                    articulo.Nombre = txtNombre.Text;
+                    articulo.Descripcion = txtDescripcion.Text;
+                    articulo.ImagenUrl = txtUrlImagen.Text;
+                    articulo.Precio = decimal.Parse(txtPrecio.Text);
+                    articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
+                    articulo.Marca = (Marca)cboMarca.SelectedItem;
 
-                if (articulo.Id != 0)
-                {
-                    dataBaseHelper.ModificarArticulo(articulo);
-                    MessageBox.Show("Modificado exitosamente!");
+                    if (articulo.Id != 0)
+                    {
+                        dataBaseHelper.ModificarArticulo(articulo);
+                        MessageBox.Show("Modificado exitosamente!");
+                    }
+                    else
+                    {
+                        dataBaseHelper.InsertarArticulo(articulo);
+                        MessageBox.Show("Agregado exitosamente!");
+                    }
+
+                    if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))
+                    {
+                        File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+                    }
+
+                    Close();
                 }
                 else
                 {
-                    dataBaseHelper.InsertarArticulo(articulo);
-                    MessageBox.Show("Agregado exitosamente!");
+                    // Enfocar el primer campo que tenga un error
+                    if (!string.IsNullOrWhiteSpace(lblErrorCodigo.Text))
+                        txtCodigo.Focus();
+                    else if (!string.IsNullOrWhiteSpace(lblErrorNombre.Text))
+                        txtNombre.Focus();
+                    else if (!string.IsNullOrWhiteSpace(lblErrorPrecio.Text))
+                        txtPrecio.Focus();
                 }
-
-                // Guardo la imagen si la levanto localmente:
-                if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))
-                {
-                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
-                }
-
-                Close();
             }
             catch (Exception ex)
             {
@@ -98,12 +95,11 @@ namespace Presentacion
             NegocioArticulo negocioArticulo = new NegocioArticulo();
             try
             {
-                // Asignar al ComboBox de Categorías
                 cboCategoria.DataSource = negocioArticulo.ObtenerCategorias();
                 cboCategoria.DisplayMember = "Descripcion";
                 cboCategoria.ValueMember = "Id";
 
-                // Asignar al ComboBox de Marcas
+               
                 cboMarca.DataSource = negocioArticulo.ObtenerMarcas();
                 cboMarca.DisplayMember = "Descripcion";
                 cboMarca.ValueMember = "Id";
@@ -152,48 +148,44 @@ namespace Presentacion
                 txtUrlImagen.Text = archivo.FileName;
                 cargarImagen(archivo.FileName);
 
-                // Guardo la imagen
-                // File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+               
             }
         }
 
         private bool ValidarCampos()
         {
-            if (string.IsNullOrEmpty(txtCodigo.Text))
+            bool esValido = true;
+
+
+            lblErrorCodigo.Text = "";
+            lblErrorNombre.Text = "";
+            lblErrorPrecio.Text = "";
+
+
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
-                MessageBox.Show("El código no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                lblErrorCodigo.Text = "El campo Código es obligatorio.";
+                esValido = false;
             }
 
-            if (string.IsNullOrEmpty(txtNombre.Text))
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("El nombre no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                lblErrorNombre.Text = "El campo Nombre es obligatorio.";
+                esValido = false;
+            }
+            if (string.IsNullOrWhiteSpace(txtPrecio.Text) || !decimal.TryParse(txtPrecio.Text, out _))
+            {
+                lblErrorPrecio.Text = "Debes cargar un precio Valido, solo números.";
+                esValido = false;
             }
 
-            if (string.IsNullOrEmpty(txtDescripcion.Text))
-            {
-                MessageBox.Show("La descripción no puede estar vacía.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+            return esValido;
 
-            decimal precio;
-            if (!decimal.TryParse(txtPrecio.Text, out precio))
-            {
-                MessageBox.Show("El precio ingresado no es válido. Debe ser un número.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPrecio.Focus();
-                return false;
-            }
 
-            return true;
+
+
+
         }
-
-        private bool ValidarPrecio(string precio)
-        {
-            decimal resultado;
-            return decimal.TryParse(precio, out resultado);
-        }
-
-        
     }
 }

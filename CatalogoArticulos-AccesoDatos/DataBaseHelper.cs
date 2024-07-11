@@ -22,43 +22,43 @@ namespace CatalogoArticulos.AccesoDatos
 
             try
             {
-                // Cadena de conexión
+
                 conexion.ConnectionString = "server=.\\SQLEXPRESS; database=CATALOGO_DB; integrated security=true";
                 comando.CommandType = System.Data.CommandType.Text;
                 comando.CommandText = "SELECT a.Id, a.Codigo, a.Nombre, a.Descripcion, a.IdMarca, m.Descripcion AS Marca, a.IdCategoria, c.Descripcion AS Categoria, a.Precio, a.ImagenUrl FROM Articulos a JOIN Marcas m ON a.IdMarca = m.Id JOIN Categorias c ON a.IdCategoria = c.Id;";
                 comando.Connection = conexion;
 
-                // Abrir conexión
+              
                 conexion.Open();
                 lector = comando.ExecuteReader();
 
-                // Iterar sobre los resultados
+                
                 while (lector.Read())
                 {
                     Articulo articulo = new Articulo();
 
-                    articulo.Id = lector.GetInt32(0); // Obtener Id
+                    articulo.Id = lector.GetInt32(0); 
                     articulo.Codigo = lector["Codigo"].ToString();
                     articulo.Nombre = lector["Nombre"].ToString();
                     articulo.Descripcion = lector["Descripcion"].ToString();
 
-                    // Asignar IdMarca y IdCategoria directamente si están como enteros en la base de datos
-                    articulo.IdMarca = lector.GetInt32(4); // Obtener IdMarca
-                    articulo.IdCategoria = lector.GetInt32(6); // Obtener IdCategoria
+                    
+                    articulo.IdMarca = lector.GetInt32(4); 
+                    articulo.IdCategoria = lector.GetInt32(6); 
 
                     articulo.Marca = new Marca
                     {
                         Id = articulo.IdMarca,
-                        Descripcion = lector["Marca"].ToString() // Obtener Marca
+                        Descripcion = lector["Marca"].ToString() 
                     };
 
                     articulo.Categoria = new Categoria
                     {
                         Id = articulo.IdCategoria,
-                        Descripcion = lector["Categoria"].ToString() // Obtener Categoria
+                        Descripcion = lector["Categoria"].ToString() 
                     };
 
-                    articulo.Precio = lector.GetDecimal(8); // Obtener Precio
+                    articulo.Precio = lector.GetDecimal(8);
 
                     //Primera manera para validar DBnull
                     //if (!lector.IsDBNull(lector.GetOrdinal("ImagenUrl")))                  
@@ -68,13 +68,13 @@ namespace CatalogoArticulos.AccesoDatos
                     articulos.Add(articulo);
                 }
 
-                // Cerrar conexión
+               
                 conexion.Close();
                 return articulos;
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones: puedes registrar el error, mostrar un mensaje al usuario, etc.
+                
                 throw new Exception("Error al obtener los artículos de la base de datos.", ex);
             }
         }
@@ -121,7 +121,7 @@ namespace CatalogoArticulos.AccesoDatos
                 datos.setearParametro("@idCategoria", articulo.Categoria.Id);
                 datos.setearParametro("@imagenUrl", articulo.ImagenUrl);
                 datos.setearParametro("@precio", articulo.Precio);
-                datos.setearParametro("@id", articulo.Id); // Agregar el parámetro Id para identificar el artículo a modificar
+                datos.setearParametro("@id", articulo.Id); 
 
                 datos.ejecutarAccion();
             }
@@ -211,33 +211,33 @@ namespace CatalogoArticulos.AccesoDatos
                 }
 
                 datos.setearConsulta(consulta);
-                datos.setearParametro("@filtro", filtro); // Asegurarse de que el parámetro @filtro se agrega
+                datos.setearParametro("@filtro", filtro); 
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Articulo articulo = new Articulo
                     {
-                        Id = datos.Lector.GetInt32(0), // Obtener Id
+                        Id = datos.Lector.GetInt32(0),
                         Codigo = datos.Lector["Codigo"].ToString(),
                         Nombre = datos.Lector["Nombre"].ToString(),
                         Descripcion = datos.Lector["Descripcion"].ToString(),
-                        IdMarca = datos.Lector.GetInt32(4), // Obtener IdMarca
-                        IdCategoria = datos.Lector.GetInt32(6), // Obtener IdCategoria
+                        IdMarca = datos.Lector.GetInt32(4),
+                        IdCategoria = datos.Lector.GetInt32(6),
                         Marca = new Marca
                         {
-                            Id = datos.Lector.GetInt32(4), // Obtener IdMarca
-                            Descripcion = datos.Lector["Marca"].ToString() // Obtener Marca
+                            Id = datos.Lector.GetInt32(4),
+                            Descripcion = datos.Lector["Marca"].ToString()
                         },
                         Categoria = new Categoria
                         {
-                            Id = datos.Lector.GetInt32(6), // Obtener IdCategoria
-                            Descripcion = datos.Lector["Categoria"].ToString() // Obtener Categoria
+                            Id = datos.Lector.GetInt32(6), 
+                            Descripcion = datos.Lector["Categoria"].ToString() 
                         },
-                        Precio = datos.Lector.GetDecimal(8) // Obtener Precio
+                        Precio = datos.Lector.GetDecimal(8)
                     };
 
-                    // Validar si el campo ImagenUrl es DBNull antes de asignarlo
+                    
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl")))
                     {
                         articulo.ImagenUrl = datos.Lector["ImagenUrl"].ToString();
