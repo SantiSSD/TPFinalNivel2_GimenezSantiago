@@ -59,7 +59,28 @@ namespace Presentacion
                 articulo.Codigo = txtCodigo.Text;
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
-                articulo.Precio = decimal.Parse(txtPrecio.Text);
+
+
+                // Validación para el campo Precio
+                if (string.IsNullOrWhiteSpace(txtPrecio.Text))
+                {
+                    MessageBox.Show("El campo Precio no puede estar vacío.");
+                    return;
+                }
+
+                // Intentar convertir el valor de txtPrecio a decimal
+                try
+                {
+                    decimal precio = decimal.Parse(txtPrecio.Text);
+                    articulo.Precio = precio; // Asignar el precio convertido al objeto articulo
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("El campo Precio debe contener un valor numérico válido.");
+                    return;
+                }
+
+
                 articulo.Marca = new Marca();
                 articulo.Categoria = new Categoria();
                 articulo.Marca.Id = (int)cboMarca.SelectedValue;
