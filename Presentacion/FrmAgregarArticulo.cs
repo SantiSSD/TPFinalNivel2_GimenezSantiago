@@ -1,5 +1,4 @@
-﻿
-using Dominio;
+﻿using Dominio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,15 +17,12 @@ namespace Presentacion
 {
     public partial class FrmAgregarArticulo : Form
     {
-
-        private Articulo articulo = null;   
+        private Articulo articulo = null;
         private OpenFileDialog archivo = null;
-        private bool txtPrecioEventSubscribed = false; // Variable para controlar la suscripción
 
         public FrmAgregarArticulo()
         {
             InitializeComponent();
-          
         }
 
         public FrmAgregarArticulo(Articulo articulo)
@@ -43,16 +39,12 @@ namespace Presentacion
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!txtPrecioEventSubscribed)
-            {
-                txtPrecio.KeyPress += new KeyPressEventHandler(txtPrecio_KeyPress);
-                txtPrecioEventSubscribed = true; // Marcar que el evento está suscrito
-            }
-
-
             DataBaseHelper dataBaseHelper = new DataBaseHelper();
             try
             {
+                if (!ValidarCampos())
+                    return;
+
                 if (articulo == null)
                     articulo = new Articulo();
 
@@ -60,26 +52,15 @@ namespace Presentacion
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
 
-
                 // Validación para el campo Precio
-                if (string.IsNullOrWhiteSpace(txtPrecio.Text))
+                decimal precio;
+                if (!decimal.TryParse(txtPrecio.Text, out precio))
                 {
-                    MessageBox.Show("El campo Precio no puede estar vacío.");
+                    MessageBox.Show("El campo Precio debe contener un valor numérico válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtPrecio.Focus();
                     return;
                 }
-
-                // Intentar convertir el valor de txtPrecio a decimal
-                try
-                {
-                    decimal precio = decimal.Parse(txtPrecio.Text);
-                    articulo.Precio = precio; // Asignar el precio convertido al objeto articulo
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("El campo Precio debe contener un valor numérico válido.");
-                    return;
-                }
-
+                articulo.Precio = precio;
 
                 articulo.Marca = new Marca();
                 articulo.Categoria = new Categoria();
@@ -98,14 +79,11 @@ namespace Presentacion
                     MessageBox.Show("Agregado exitosamente!");
                 }
 
-                //Guardo la imagen si la levanto localmente:
+                // Guardo la imagen si la levanto localmente:
                 if (archivo != null && !(txtUrlImagen.Text.ToUpper().Contains("HTTP")))
                 {
                     File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
-
-
                 }
-
 
                 Close();
             }
@@ -144,7 +122,6 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.ToString());
             }
         }
@@ -153,6 +130,7 @@ namespace Presentacion
         {
             cargarImagen(txtUrlImagen.Text);
         }
+
         private void cargarImagen(string imagen)
         {
             try
@@ -161,7 +139,6 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
                 pictureBoxTienda.Load("https://t4.ftcdn.net/jpg/05/17/53/57/360_F_517535712_q7f9QC9X6TQxWi6xYZZbMmw5cnLMr279.jpg");
             }
         }
@@ -175,59 +152,48 @@ namespace Presentacion
                 txtUrlImagen.Text = archivo.FileName;
                 cargarImagen(archivo.FileName);
 
-                //guardo la imagen
-                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
-
-
-
+                // Guardo la imagen
+                // File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
             }
         }
 
-        private void txtPrecio_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Permitir solo números, backspace y punto decimal
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-                MessageBox.Show("Solo se permiten números y un punto decimal.", "Entrada inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            // Solo permitir un punto decimal
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-                MessageBox.Show("Solo se permite un punto decimal.", "Entrada inválida", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
         private bool ValidarCampos()
         {
+            if (string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                MessageBox.Show("El código no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             if (string.IsNullOrEmpty(txtNombre.Text))
             {
-                MessageBox.Show("El nombre no puede estar vacío.");
+                MessageBox.Show("El nombre no puede estar vacío.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (string.IsNullOrEmpty(txtDescripcion.Text))
             {
-                MessageBox.Show("La descripción no puede estar vacía.");
+                MessageBox.Show("La descripción no puede estar vacía.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (!ValidarPrecio(txtPrecio.Text))
+            decimal precio;
+            if (!decimal.TryParse(txtPrecio.Text, out precio))
             {
-                MessageBox.Show("El precio ingresado no es válido. Debe ser un número.");
+                MessageBox.Show("El precio ingresado no es válido. Debe ser un número.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPrecio.Focus();
                 return false;
             }
 
-            // Otras validaciones que necesites
             return true;
         }
+
         private bool ValidarPrecio(string precio)
         {
             decimal resultado;
             return decimal.TryParse(precio, out resultado);
         }
 
+        
     }
 }

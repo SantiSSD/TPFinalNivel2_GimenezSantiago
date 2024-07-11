@@ -24,7 +24,7 @@ namespace Presentacion
         private void MainForm_Load(object sender, EventArgs e)
         {
             Cargar();
-            cboCampo.Items.Add("Id");
+            cboCampo.Items.Add("Codigo");
             cboCampo.Items.Add("Nombre");
             cboCampo.Items.Add("Descripción");
         }
@@ -89,7 +89,7 @@ namespace Presentacion
             dataGridViewArticulos.Columns["idMarca"].Visible = false;
             dataGridViewArticulos.Columns["idCategoria"].Visible = false;
             dataGridViewArticulos.Columns["ImagenUrl"].Visible = false;
-            dataGridViewArticulos.Columns["Id"].Visible = true;
+            dataGridViewArticulos.Columns["Id"].Visible = false;
 
         }
         private void cargarImagen(string imagen)
@@ -158,53 +158,36 @@ namespace Presentacion
         {
             if (cboCampo.SelectedIndex < 0)
             {
-                MessageBox.Show("Por favor, seleccione el campo para filtrar.");
+                MessageBox.Show("Por favor, seleccione el campo para filtrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             if (cboCriterio.SelectedIndex < 0)
             {
-                MessageBox.Show("Por favor, seleccione el criterio para filtrar.");
+                MessageBox.Show("Por favor, seleccione el criterio para filtrar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
-            if (cboCampo.SelectedItem.ToString() == "Id")
+            if (cboCampo.SelectedItem.ToString() == "Codigo")
             {
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
                 {
-                    MessageBox.Show("Debes Cargar el filtro para Númericos...");
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Codigo'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
-                }
-                if (!(SoloNumeros(txtFiltroAvanzado.Text)))
-                {
-                    MessageBox.Show("Solo Números para filtrar por un campo Numérico...");
-                    return true;
-
                 }
             }
             else if (cboCampo.SelectedItem.ToString() == "Descripción")
             {
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text))
                 {
-                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción'.");
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
                 }
-
             }
             return false;
+        
 
 
-        }
-        private bool SoloNumeros(string cadena)
-        {
-            foreach (var caracter in cadena)
-            {
-                if (!(char.IsNumber(caracter)))
-                {
-                    return false;
-
-                }
-            }
-            return true;
-        }
+    }
+       
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -221,10 +204,10 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Error al filtrar los artículos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        
+    }
 
         private void txtFiltro_TextChanged(object sender, EventArgs e)
         {
@@ -250,20 +233,27 @@ namespace Presentacion
         private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
             string opcion = cboCampo.SelectedItem.ToString();
-            if (opcion == "Id")
+            cboCriterio.Items.Clear();
+
+            if (opcion == "Codigo" || opcion == "Nombre" || opcion == "Descripción")
             {
-                cboCriterio.Items.Clear();
-                cboCriterio.Items.Add("Mayor a");
-                cboCriterio.Items.Add("Menor a");
-                cboCriterio.Items.Add("Igual a");
-            }
-            else
-            {
-                cboCriterio.Items.Clear();
                 cboCriterio.Items.Add("Comienza con");
                 cboCriterio.Items.Add("Termina con");
                 cboCriterio.Items.Add("Contiene");
             }
+        }
+
+        private void btnDescripcionarticulo_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewArticulos.CurrentRow == null)
+            {
+                MessageBox.Show("No hay ningún artículo seleccionado para ver.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Articulo seleccionado = (Articulo)dataGridViewArticulos.CurrentRow.DataBoundItem;
+            FrmDetalleArticulo frmDetalle = new FrmDetalleArticulo(seleccionado);
+            frmDetalle.ShowDialog();
         }
     }
 }

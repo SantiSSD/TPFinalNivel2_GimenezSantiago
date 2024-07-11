@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewArticulos = new System.Windows.Forms.DataGridView();
             this.pictureBoxTienda = new System.Windows.Forms.PictureBox();
             this.btnAgregar = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.cboCampo = new System.Windows.Forms.ComboBox();
             this.cboCriterio = new System.Windows.Forms.ComboBox();
             this.txtFiltroAvanzado = new System.Windows.Forms.TextBox();
+            this.btnDescripcionarticulo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTienda)).BeginInit();
             this.SuspendLayout();
@@ -51,9 +53,16 @@
             this.dataGridViewArticulos.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewArticulos.GridColor = System.Drawing.Color.Black;
             this.dataGridViewArticulos.Location = new System.Drawing.Point(181, 86);
             this.dataGridViewArticulos.MultiSelect = false;
             this.dataGridViewArticulos.Name = "dataGridViewArticulos";
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            this.dataGridViewArticulos.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewArticulos.Size = new System.Drawing.Size(642, 348);
             this.dataGridViewArticulos.TabIndex = 0;
@@ -61,6 +70,7 @@
             // 
             // pictureBoxTienda
             // 
+            this.pictureBoxTienda.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.pictureBoxTienda.Location = new System.Drawing.Point(829, 86);
             this.pictureBoxTienda.Name = "pictureBoxTienda";
             this.pictureBoxTienda.Size = new System.Drawing.Size(276, 348);
@@ -70,32 +80,44 @@
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(76, 86);
+            this.btnAgregar.BackColor = System.Drawing.Color.White;
+            this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAgregar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnAgregar.Location = new System.Drawing.Point(12, 86);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(99, 67);
+            this.btnAgregar.Size = new System.Drawing.Size(163, 28);
             this.btnAgregar.TabIndex = 2;
             this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.UseVisualStyleBackColor = false;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(76, 180);
+            this.btnModificar.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnModificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModificar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnModificar.Location = new System.Drawing.Point(12, 143);
             this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(99, 66);
+            this.btnModificar.Size = new System.Drawing.Size(163, 27);
             this.btnModificar.TabIndex = 3;
             this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.UseVisualStyleBackColor = false;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnEliminarFisico
             // 
-            this.btnEliminarFisico.Location = new System.Drawing.Point(84, 396);
+            this.btnEliminarFisico.BackColor = System.Drawing.Color.Red;
+            this.btnEliminarFisico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminarFisico.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarFisico.ForeColor = System.Drawing.Color.Black;
+            this.btnEliminarFisico.Location = new System.Drawing.Point(78, 408);
             this.btnEliminarFisico.Name = "btnEliminarFisico";
-            this.btnEliminarFisico.Size = new System.Drawing.Size(91, 38);
+            this.btnEliminarFisico.Size = new System.Drawing.Size(97, 26);
             this.btnEliminarFisico.TabIndex = 4;
             this.btnEliminarFisico.Text = "Eliminar";
-            this.btnEliminarFisico.UseVisualStyleBackColor = true;
+            this.btnEliminarFisico.UseVisualStyleBackColor = false;
             this.btnEliminarFisico.Click += new System.EventHandler(this.btnEliminarFisico_Click);
             // 
             // lblFiltro
@@ -178,11 +200,26 @@
             this.txtFiltroAvanzado.Size = new System.Drawing.Size(113, 20);
             this.txtFiltroAvanzado.TabIndex = 13;
             // 
+            // btnDescripcionarticulo
+            // 
+            this.btnDescripcionarticulo.BackColor = System.Drawing.Color.White;
+            this.btnDescripcionarticulo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDescripcionarticulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDescripcionarticulo.Location = new System.Drawing.Point(12, 212);
+            this.btnDescripcionarticulo.Name = "btnDescripcionarticulo";
+            this.btnDescripcionarticulo.Size = new System.Drawing.Size(163, 29);
+            this.btnDescripcionarticulo.TabIndex = 14;
+            this.btnDescripcionarticulo.Text = "Ver Articulo";
+            this.btnDescripcionarticulo.UseVisualStyleBackColor = false;
+            this.btnDescripcionarticulo.Click += new System.EventHandler(this.btnDescripcionarticulo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(1117, 565);
+            this.Controls.Add(this.btnDescripcionarticulo);
             this.Controls.Add(this.txtFiltroAvanzado);
             this.Controls.Add(this.cboCriterio);
             this.Controls.Add(this.cboCampo);
@@ -223,6 +260,7 @@
         private System.Windows.Forms.ComboBox cboCampo;
         private System.Windows.Forms.ComboBox cboCriterio;
         private System.Windows.Forms.TextBox txtFiltroAvanzado;
+        private System.Windows.Forms.Button btnDescripcionarticulo;
     }
 }
 

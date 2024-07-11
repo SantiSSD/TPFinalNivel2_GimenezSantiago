@@ -161,17 +161,17 @@ namespace CatalogoArticulos.AccesoDatos
                 string consulta = "SELECT a.Id, a.Codigo, a.Nombre, a.Descripcion, a.IdMarca, m.Descripcion AS Marca, a.IdCategoria, c.Descripcion AS Categoria, a.Precio, a.ImagenUrl FROM Articulos a JOIN Marcas m ON a.IdMarca = m.Id JOIN Categorias c ON a.IdCategoria = c.Id AND ";
                 switch (campo)
                 {
-                    case "Id":
+                    case "Codigo":
                         switch (criterio)
                         {
-                            case "Mayor a":
-                                consulta += "a.Id > " + filtro;
+                            case "Comienza con":
+                                consulta += "a.Codigo LIKE @filtro + '%'";
                                 break;
-                            case "Menor a":
-                                consulta += "a.Id < " + filtro;
+                            case "Termina con":
+                                consulta += "a.Codigo LIKE '%' + @filtro";
                                 break;
-                            default:
-                                consulta += "a.Id = " + filtro;
+                            case "Contiene":
+                                consulta += "a.Codigo LIKE '%' + @filtro + '%'";
                                 break;
                         }
                         break;
@@ -180,13 +180,13 @@ namespace CatalogoArticulos.AccesoDatos
                         switch (criterio)
                         {
                             case "Comienza con":
-                                consulta += "a.Nombre LIKE '" + filtro + "%'";
+                                consulta += "a.Nombre LIKE @filtro + '%'";
                                 break;
                             case "Termina con":
-                                consulta += "a.Nombre LIKE '%" + filtro + "'";
+                                consulta += "a.Nombre LIKE '%' + @filtro";
                                 break;
                             case "Contiene":
-                                consulta += "a.Nombre LIKE '%" + filtro + "%'";
+                                consulta += "a.Nombre LIKE '%' + @filtro + '%'";
                                 break;
                         }
                         break;
@@ -195,51 +195,47 @@ namespace CatalogoArticulos.AccesoDatos
                         switch (criterio)
                         {
                             case "Comienza con":
-                                consulta += "a.Descripcion LIKE '" + filtro + "%'";
+                                consulta += "a.Descripcion LIKE @filtro + '%'";
                                 break;
                             case "Termina con":
-                                consulta += "a.Descripcion LIKE '%" + filtro + "'";
+                                consulta += "a.Descripcion LIKE '%' + @filtro";
                                 break;
                             case "Contiene":
-                                consulta += "a.Descripcion LIKE '%" + filtro + "%'";
+                                consulta += "a.Descripcion LIKE '%' + @filtro + '%'";
                                 break;
                         }
                         break;
-
-                    // Puedes agregar más casos para otros campos si es necesario
 
                     default:
                         throw new Exception("Campo de búsqueda no reconocido");
                 }
 
                 datos.setearConsulta(consulta);
+                datos.setearParametro("@filtro", filtro); // Asegurarse de que el parámetro @filtro se agrega
                 datos.ejecutarLectura();
+
                 while (datos.Lector.Read())
                 {
-                    Articulo articulo = new Articulo();
-
-                    articulo.Id = datos.Lector.GetInt32(0); // Obtener Id
-                    articulo.Codigo = datos.Lector["Codigo"].ToString();
-                    articulo.Nombre = datos.Lector["Nombre"].ToString();
-                    articulo.Descripcion = datos.Lector["Descripcion"].ToString();
-
-                    // Asignar IdMarca y IdCategoria directamente si están como enteros en la base de datos
-                    articulo.IdMarca = datos.Lector.GetInt32(4); // Obtener IdMarca
-                    articulo.IdCategoria = datos.Lector.GetInt32(6); // Obtener IdCategoria
-
-                    articulo.Marca = new Marca
+                    Articulo articulo = new Articulo
                     {
-                        Id = articulo.IdMarca,
-                        Descripcion = datos.Lector["Marca"].ToString() // Obtener Marca
+                        Id = datos.Lector.GetInt32(0), // Obtener Id
+                        Codigo = datos.Lector["Codigo"].ToString(),
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"].ToString(),
+                        IdMarca = datos.Lector.GetInt32(4), // Obtener IdMarca
+                        IdCategoria = datos.Lector.GetInt32(6), // Obtener IdCategoria
+                        Marca = new Marca
+                        {
+                            Id = datos.Lector.GetInt32(4), // Obtener IdMarca
+                            Descripcion = datos.Lector["Marca"].ToString() // Obtener Marca
+                        },
+                        Categoria = new Categoria
+                        {
+                            Id = datos.Lector.GetInt32(6), // Obtener IdCategoria
+                            Descripcion = datos.Lector["Categoria"].ToString() // Obtener Categoria
+                        },
+                        Precio = datos.Lector.GetDecimal(8) // Obtener Precio
                     };
-
-                    articulo.Categoria = new Categoria
-                    {
-                        Id = articulo.IdCategoria,
-                        Descripcion = datos.Lector["Categoria"].ToString() // Obtener Categoria
-                    };
-
-                    articulo.Precio = datos.Lector.GetDecimal(8); // Obtener Precio
 
                     // Validar si el campo ImagenUrl es DBNull antes de asignarlo
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl")))
@@ -250,12 +246,11 @@ namespace CatalogoArticulos.AccesoDatos
                     lista.Add(articulo);
                 }
 
-                    return lista;
+                return lista;
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw new Exception("Error al filtrar los artículos en la base de datos.", ex);
             }
         }
     }
