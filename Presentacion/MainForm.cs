@@ -170,7 +170,15 @@ namespace Presentacion
             {
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text.Trim()))
                 {
-                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Codigo'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Codigo', seleccione recargar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return true;
+                }
+            }
+            else if (cboCampo.SelectedItem.ToString() == "Nombre")
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvanzado.Text.Trim()))
+                {
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Nombre', seleccione recargar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
                 }
             }
@@ -178,7 +186,7 @@ namespace Presentacion
             {
                 if (string.IsNullOrEmpty(txtFiltroAvanzado.Text.Trim()))
                 {
-                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("El filtro no puede estar vacío para el campo 'Descripción', seleccione recargar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return true;
                 }
             }
@@ -265,6 +273,8 @@ namespace Presentacion
         {
             Cargar();
         }
+        
+        
     }
 }
 

@@ -191,7 +191,7 @@ namespace CatalogoArticulos.AccesoDatos
                         }
                         break;
 
-                    case "Descripcion":
+                    case "Descripción":
                         switch (criterio)
                         {
                             case "Comienza con":
